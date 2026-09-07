@@ -1,0 +1,26 @@
+variable_omitida,indicador_omitido,bloque,n_comparables,pearson_vs_base,spearman_vs_base,dam_z
+act_improductivo_patrimonio,Activo Improductivo / Patrimonio,activos,192,0.9638516694633994,0.9824213981499065,0.10901316023195176
+act_cartera_neta_activo,Cartera Neta / Activo Total,activos,192,0.9688080920554117,0.94938522366600675,0.0998921392463523
+act_disp_activo,Disponibilidades / Activo Total,activos,192,0.9688667300952744,0.9451465561674309,0.10454315353864858
+act_productivo_actcont,Activo Productivo / (Activo + Contingente),activos,192,0.9725979358922245,0.9884420014648836,0.0913762095981425
+car_reprogramada_cartera,Cartera Reprog. o Reestruct. / Cartera Total,cartera,184,0.9758242357162925,0.9829034308720693,0.07020313827458856
+fon_oblig_subordinadas_paspat,Obligaciones Subordinadas / (Pas. + Pat.),fondeo,192,0.9910132330484407,0.9923737894365626,0.05379743393304047
+car_mora_cartera,Cartera Vencida y Ejecución / Cartera Total,cartera,184,0.9916415619595649,0.9946966924158654,0.058632773025396365
+fon_personas_naturales,Oblig. Personas Naturales / Total Oblig. Público,fondeo,192,0.9918438623157098,0.9866905840544721,0.04627634737617713
+fon_juridicas_institucionales,Oblig. Personas Jurídicas e Institucionales / Total Oblig.,fondeo,192,0.9921680714469493,0.986595637902504,0.04498676206021994
+fon_oblig_publico_paspat,Oblig. con el Público / (Pas. + Pat.),fondeo,192,0.9935149855321533,0.9923381846295745,0.034834840156724126
+fon_dias_permanencia_dpf,Días de Permanencia Promedio de DPF,fondeo,192,0.9935336877339712,0.9872195697582943,0.06730257660240441
+fon_oblig_publico_emp_paspat,Oblig. Público + Emp. Públicas / (Pas. + Pat.),fondeo,192,0.9935551811219102,0.9921330331226434,0.04348877651006539
+car_prev_incobrable,Previsión Cartera Incobrable / Cartera Total,cartera,184,0.9937106505500503,0.9970950280287414,0.052764933291439615
+car_reprog_venc_ejec,Cartera Reprog. Vencida y Ejec. / Cartera Reprog.,cartera,184,0.9962641732517172,0.9968465257845157,0.0757428769118191
+solv_mora_patrimonio,(Cartera Vencida + Ejecución) / Patrimonio,solvencia,192,0.9965712725191169,0.9979773078696799,0.030824981642151965
+solv_mora_neta_patrimonio,(Cartera Vencida + Ejecución – Prev.) / Patrimonio,solvencia,192,0.9965932587501872,0.9971261834359657,0.032340513259610994
+liq_disp_inv_activo,(Disp. + Inv. Temp.) / Activo Total,liquidez,192,0.9968709485496261,0.9961021213683099,0.03396411030311455
+solv_cap,Coeficiente de Adecuación Patrimonial (CAP),solvencia,192,0.9970298320963848,0.9992811219922417,0.02599681103228813
+liq_disp_inv_oblig_cp,(Disp. + Inv. Temp.) / Oblig. Corto Plazo,liquidez,192,0.9975237126613471,0.9984283020915282,0.025716389437541374
+fon_oblig_bancos_paspat,Oblig. con Bancos y Ent. Fin. / (Pas. + Pat.),fondeo,192,0.9977639521988582,0.9972719935979167,0.037037028822358604
+liq_disp_oblig_cp,Disponibilidades / Oblig. Corto Plazo,liquidez,192,0.997894850494162,0.9989301603233596,0.02499495235602612
+solv_patrimonio_actcont,Patrimonio / (Activo + Contingente),solvencia,192,0.9981498452315888,0.9986843176084421,0.02294755208842336
+liq_disp_inv_pasivo,(Disp. + Inv. Temp.) / Pasivo Total,liquidez,192,0.9982922335082528,0.9990708840843123,0.02046534984326004
+car_categoria_f,Cartera Categoría F (previsión 100%) / Cartera,cartera,192,0.9988214036114316,0.9979569622656866,0.031650022751321893
+solv_patrimonio_activo,Patrimonio / Activo Total,solvencia,192,0.998930464621765,0.9989352467243579,0.01805510109233564

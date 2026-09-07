@@ -1,0 +1,6 @@
+"Dimensión","N indicadores","Casos completos","|r| media","KMO","p Bartlett","Var. PC1 (%)","Coherencia cargas (%)","PCA interpretable"
+"Activos",4,192,0.7376,0.6621,"<0.0001",80.84,50,"No"
+"Cartera",5,184,0.7129,0.5952,"<0.0001",79.03,80,"Sí"
+"Fondeo",7,192,0.3719,0.6103,"<0.0001",44.76,71.43,"No"
+"Liquidez",4,192,0.7051,0.566,"<0.0001",77.98,100,"Sí"
+"Solvencia",5,192,0.5871,0.6525,"<0.0001",67.83,100,"Sí"

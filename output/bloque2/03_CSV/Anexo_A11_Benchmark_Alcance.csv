@@ -1,0 +1,2 @@
+"Benchmark","Pearson vs. ICVLF integral","Spearman vs. ICVLF integral","Lectura"
+"Liquidez + Fondeo (50/50)",0.4229,0.025,"Benchmark de constructo estrecho; una correlación menor no es un fallo de robustez, porque elimina Activos, Cartera y Solvencia."

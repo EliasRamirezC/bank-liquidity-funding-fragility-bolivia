@@ -1,0 +1,9 @@
+codigo,escenario,dimensiones_afectadas,calibracion,ICVLF_simulado_z,delta_z,ICVLF_simulado_100_ref,tipo
+E0,E0 — Estado observado (diciembre 2025),Ninguna,Estado observado,0.41122603284400355,0,77.1860361507833,Contrafactual Q95
+E1,E1 — Choque adverso en liquidez,liquidez,Percentil histórico 95 del subíndice,0.4851140898286578,0.07388805698465423,80.30350095755702,Contrafactual Q95
+E2,E2 — Choque adverso en fondeo,fondeo,Percentil histórico 95 del subíndice,0.8797633891529613,0.4685373563089577,96.9544368715566,Contrafactual Q95
+E3,E3 — Choque adverso en composición de activos,activos,Percentil histórico 95 del subíndice,0.5638332804942688,0.1526072476502653,83.62479964279274,Contrafactual Q95
+E4,E4 — Choque adverso en presión de cartera,cartera,Percentil histórico 95 del subíndice,0.45422070545983395,0.0429946726158304,79.00005568558372,Contrafactual Q95
+E5,E5 — Choque adverso en solvencia/capacidad de absorción,solvencia,Percentil histórico 95 del subíndice,0.5361366189216268,0.12491058607762323,82.45622962970162,Contrafactual Q95
+E6,E6 — Choque adverso conjunto en las cinco dimensiones,"liquidez, fondeo, activos, cartera, solvencia",Percentil histórico 95 del subíndice,1.2741639524813344,0.8629379196373308,113.5948781840585,Contrafactual Q95
+EH,EH — Peor configuración conjunta observada (septiembre 2024),Configuración conjunta observada,Mes histórico de máximo ICVLF,0.9519472808510598,0.5407212480070562,100,Histórico observado

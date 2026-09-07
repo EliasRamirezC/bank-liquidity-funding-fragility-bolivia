@@ -1,0 +1,8 @@
+"Prueba","Detalle","Pearson vs. principal","Spearman vs. principal"
+"Pesos dimensionales alternativos","35–25–15–15–10","0.9279","0.9824"
+"PCA global de subíndices","PC1 global como sensibilidad","0.8985","0.8957"
+"Pesos internos PCA","PCA dentro de cada dimensión","0.9922","0.9934"
+"Normalización robusta mediana/MAD","Misma arquitectura; escala robusta","0.9503","0.9867"
+"Excluir signos/contextos sensibles","4 indicadores excluidos","0.9685","0.9683"
+"Peor leave-one-indicator-out","Activo Improductivo / Patrimonio","0.9639","0.9824"
+"Peor leave-one-dimension-out","Cartera","0.9204","0.9808"

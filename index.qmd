@@ -1,0 +1,1063 @@
+---
+title: "Índice Compuesto de Vulnerabilidad de Liquidez y Fondeo"
+subtitle: "Sistema bancario boliviano · 2010–2025"
+author: "Elías Eliseo Ramírez Calderón"
+date: last-modified
+lang: es
+page-layout: article
+toc: true
+toc-title: "Contenido"
+toc-depth: 2
+toc-location: right
+---
+
+```{r}
+#| include: false
+
+source(
+  file.path("R", "report_helpers.R"),
+  encoding = "UTF-8"
+)
+
+B1 <- load_icvlf_objects()
+
+indices <- B1$indices
+ultimo <- indices[nrow(indices), , drop = FALSE]
+
+bloques <- c(
+  "liquidez",
+  "fondeo",
+  "activos",
+  "cartera",
+  "solvencia"
+)
+
+etiquetas_bloque <- c(
+  liquidez = "Liquidez",
+  fondeo = "Fondeo",
+  activos = "Activos",
+  cartera = "Cartera",
+  solvencia = "Solvencia"
+)
+
+valor_actual <- ultimo$ICVLF_equal_100
+regimen_actual <- as.character(
+  ultimo$nivel_vulnerabilidad
+)
+fecha_actual <- ultimo$Fecha
+n_obs <- nrow(indices)
+
+max_pos <- which.max(indices$ICVLF_equal_100)
+max_value <- indices$ICVLF_equal_100[max_pos]
+max_date <- indices$Fecha[max_pos]
+
+dim_actual <- vapply(
+  bloques,
+  function(bl) as.numeric(ultimo[[bl]]),
+  numeric(1)
+)
+
+contrib_actual <- dim_actual / length(bloques)
+
+mayor_dim <- names(
+  contrib_actual
+)[which.max(contrib_actual)]
+
+menor_dim <- names(
+  contrib_actual
+)[which.min(contrib_actual)]
+
+mayor_contrib <- contrib_actual[
+  mayor_dim
+]
+
+menor_contrib <- contrib_actual[
+  menor_dim
+]
+
+loo_i <- B1$tabla_robustez_leave1_indicador
+loo_d <- B1$tabla_robustez_leave1_dimension
+
+min_loo_i <- safe_min(
+  loo_i$pearson_vs_base
+)
+
+min_loo_d <- safe_min(
+  loo_d$pearson_vs_base
+)
+
+validacion <- B1$tabla_correlaciones
+validacion <- validacion[
+  validacion$indice == "ICVLF_equal_100" &
+    validacion$proxy %in% c("P1", "P2"),
+  ,
+  drop = FALSE
+]
+
+r_p1 <- validacion$pearson[
+  validacion$proxy == "P1"
+]
+
+r_p2 <- validacion$pearson[
+  validacion$proxy == "P2"
+]
+
+rupturas <- B1$rupturas_df
+
+rupturas_txt <- if (
+  is.data.frame(rupturas) &&
+  nrow(rupturas) > 0
+) {
+  paste(
+    format(
+      as.Date(rupturas$fecha),
+      "%Y-%m"
+    ),
+    collapse = ", "
+  )
+} else {
+  "ninguna ruptura seleccionada"
+}
+
+estres <- B1$tabla_estres
+
+stress_joint <- estres[
+  estres$codigo == "E6",
+  ,
+  drop = FALSE
+]
+
+stress_hist <- estres[
+  estres$codigo == "EH",
+  ,
+  drop = FALSE
+]
+
+stress_joint_100 <- if (
+  nrow(stress_joint) > 0
+) {
+  stress_joint$ICVLF_simulado_100_ref[1]
+} else {
+  NA_real_
+}
+
+stress_hist_100 <- if (
+  nrow(stress_hist) > 0
+) {
+  stress_hist$ICVLF_simulado_100_ref[1]
+} else {
+  NA_real_
+}
+```
+
+::: {.report-kicker}
+**ICVLF Bolivia · Research Compendium**
+:::
+
+::: {.hero-panel}
+
+## Una medida reproducible de vulnerabilidad histórica relativa
+
+El **Índice Compuesto de Vulnerabilidad de Liquidez y Fondeo (ICVLF)** sintetiza información pública del sistema bancario boliviano en cinco dimensiones: liquidez inmediata, estructura de fondeo, composición de activos, presión de cartera y solvencia/capacidad de absorción.
+
+El objetivo no es reconstruir el LCR o el NSFR regulatorio, estimar una probabilidad de crisis ni identificar causalidad. El objetivo es proporcionar una medida **histórica, transparente, descomponible y auditable** de la configuración de vulnerabilidad observada durante 2010–2025.
+
+:::
+
+<div class="metric-grid">
+
+<div class="metric-card">
+<div class="metric-value">`r fmt_num(valor_actual, 2)`</div>
+<div class="metric-label">ICVLF · `r month_year_es(fecha_actual)`</div>
+</div>
+
+<div class="metric-card">
+<div class="metric-value">`r regimen_actual`</div>
+<div class="metric-label">Régimen histórico relativo</div>
+</div>
+
+<div class="metric-card">
+<div class="metric-value">`r n_obs`</div>
+<div class="metric-label">Observaciones mensuales</div>
+</div>
+
+<div class="metric-card">
+<div class="metric-value">25 / 5</div>
+<div class="metric-label">Indicadores / dimensiones</div>
+</div>
+
+</div>
+
+::: {.quick-links}
+
+[**Descargar índice**](data/processed/icvlf_monthly_2010_2025.csv){.btn .btn-primary}
+
+[**Descargar base analítica**](data/processed/asfi_indicators_2010_2025.csv){.btn .btn-outline-primary}
+
+[**Diccionario**](data/processed/indicator_dictionary.csv){.btn .btn-outline-primary}
+
+[**Base pública utilizada**](data/raw/Datos%20RL%20SB.xlsm){.btn .btn-outline-secondary}
+
+[**Código en GitHub**](https://github.com/eliasramirezc/bank-liquidity-funding-fragility-bolivia){.btn .btn-outline-dark}
+
+:::
+
+# Resumen
+
+Este estudio construye y evalúa un **Índice Compuesto de Vulnerabilidad de Liquidez y Fondeo (ICVLF)** para el sistema bancario boliviano durante enero de 2010–diciembre de 2025, utilizando indicadores públicos de la Autoridad de Supervisión del Sistema Financiero (ASFI). El índice sintetiza 25 indicadores distribuidos en cinco dimensiones: liquidez inmediata, estructura de fondeo, composición de activos, presión de cartera y solvencia/capacidad de absorción.
+
+La especificación principal define primero la interpretación financiera de cada indicador, orienta todas las series hacia una lectura común de mayor vulnerabilidad, estandariza los indicadores, emplea ponderaciones iguales dentro de cada dimensión y asigna un peso de 20% a cada una de las cinco dimensiones. La estabilidad del resultado se examina mediante ponderaciones alternativas, PCA, normalización robusta mediana/MAD y ejercicios leave-one-out. Adicionalmente, se evalúa consistencia convergente con proxies de cobertura líquida y estabilidad de fondeo, heterogeneidad temporal, cambios estructurales y escenarios contrafactuales de estrés.
+
+La escala 0–100 es una transformación retrospectiva de la trayectoria 2010–2025. Por ello, **no representa una probabilidad de crisis, un umbral regulatorio, un rating ni una regla de intervención prudencial**.
+
+::: {.callout-important}
+## Cómo leer el índice
+
+Un valor mayor del ICVLF representa una posición de **mayor vulnerabilidad relativa respecto de la propia experiencia histórica de la muestra**. La clasificación Baja, Moderada, Alta o Muy alta proviene de cuartiles históricos y no de límites regulatorios.
+:::
+
+# 1. Motivación y objetivo
+
+## Problema de medición
+
+La información financiera pública permite observar numerosos indicadores relacionados con liquidez, fondeo, composición del balance, calidad de cartera y solvencia. Sin embargo, seguir simultáneamente todas esas series dificulta obtener una lectura sintética de cómo cambia la configuración de vulnerabilidad del sistema a través del tiempo.
+
+Además, con información agregada pública no es posible reconstruir de forma homogénea todos los componentes contractuales y regulatorios requeridos por métricas como LCR o NSFR. Por esa razón, el ICVLF se plantea deliberadamente como un **índice histórico de información pública**, no como sustituto de esas métricas.
+
+## Objetivo general
+
+**Construir y evaluar una medida compuesta, transparente y reproducible de vulnerabilidad histórica relativa de liquidez y fondeo para el sistema bancario boliviano durante 2010–2025, empleando información pública de ASFI.**
+
+## Pregunta analítica
+
+> ¿Puede sintetizarse la información pública disponible en una medida multidimensional que permita seguir, descomponer y someter a pruebas de sensibilidad la evolución histórica de vulnerabilidades relacionadas con liquidez y fondeo del sistema bancario boliviano?
+
+# 2. Datos y muestra
+
+## Fuente
+
+La fuente utilizada corresponde a indicadores del sistema bancario publicados por la **Autoridad de Supervisión del Sistema Financiero (ASFI), Bolivia**, para la categoría agregada utilizada en la base del proyecto.
+
+## Cobertura
+
+<div class="fact-grid">
+
+<div class="fact-card">
+<strong>Periodo</strong><br>
+enero 2010 – diciembre 2025
+</div>
+
+<div class="fact-card">
+<strong>Frecuencia</strong><br>
+mensual
+</div>
+
+<div class="fact-card">
+<strong>Muestra</strong><br>
+`r n_obs` observaciones
+</div>
+
+<div class="fact-card">
+<strong>Cobertura mínima</strong><br>
+70% por indicador candidato
+</div>
+
+</div>
+
+## Integridad y trazabilidad
+
+El Bloque 1 detiene la ejecución cuando detecta fechas mensuales duplicadas, meses faltantes dentro de la muestra esperada, fallos de parseo numérico en valores no vacíos o valores no finitos. También audita la cobertura de cada indicador antes de construir el núcleo del índice.
+
+La base original permanece disponible en `data/raw/`, mientras que `data/processed/` contiene una versión analítica, la serie completa del ICVLF y el diccionario económico de los indicadores.
+
+# 3. Marco financiero del constructo
+
+El índice se organiza en cinco dimensiones. Liquidez y fondeo son los componentes más directamente relacionados con el constructo; activos, cartera y solvencia se incorporan como canales que pueden transmitir, amplificar o absorber tensiones financieras.
+
+| Dimensión | Naturaleza | Lectura financiera |
+|---|---|---|
+| Liquidez | Directa | Capacidad inmediata de atender obligaciones mediante disponibilidades y activos líquidos/temporarios. |
+| Fondeo | Directa / estructural | Estabilidad, composición, concentración y permanencia relativa de las fuentes de financiación. |
+| Activos | Canal de transmisión | Una mayor inmovilización del activo puede limitar la capacidad de monetización rápida. |
+| Cartera | Canal de flujos | Mora, reprogramación y deterioro pueden reducir o retrasar entradas contractuales de caja. |
+| Solvencia | Canal de absorción / confianza | La capacidad patrimonial puede condicionar resiliencia, confianza y acceso a fondeo. |
+
+::: {.callout-note}
+## Alcance prudencial
+
+La inclusión de activos, cartera y solvencia **no implica que esos riesgos sean equivalentes al riesgo de liquidez**. Se incorporan como condicionantes del mecanismo financiero que puede afectar liquidez y fondeo. El índice tampoco reconstruye ASF/RSF ni flujos regulatorios de 30 días.
+:::
+
+# 4. Construcción del ICVLF
+
+## 4.1 Estandarización
+
+Para cada indicador \(i\) en el mes \(t\):
+
+$$
+z_{i,t}
+=
+\frac{x_{i,t}-\mu_i}{\sigma_i},
+$$
+
+donde \(\mu_i\) y \(\sigma_i\) se estiman sobre la muestra de referencia 2010–2025.
+
+## 4.2 Orientación económica del riesgo
+
+La dirección financiera se define **ex ante**:
+
+$$
+r_{i,t}
+=
+d_i z_{i,t},
+\qquad
+d_i \in \{-1,+1\}.
+$$
+
+Cuando \(d_i=+1\), un mayor valor original representa mayor vulnerabilidad. Cuando \(d_i=-1\), un mayor valor se interpreta como protector y el signo estandarizado se invierte.
+
+La estadística no determina el signo de riesgo.
+
+## 4.3 Agregación dentro de cada dimensión
+
+Para una dimensión \(d\) con \(K_d\) indicadores retenidos, la especificación principal utiliza pesos internos iguales:
+
+$$
+A_{d,t}
+=
+\frac{1}{K_d}
+\sum_{i=1}^{K_d}
+r_{i,t}.
+$$
+
+El agregado bruto de cada dimensión se reestandariza:
+
+$$
+S_{d,t}
+=
+\frac{A_{d,t}-\bar A_d}
+{s(A_d)}.
+$$
+
+Esta segunda estandarización evita que una dimensión domine el índice únicamente por presentar una varianza empírica mayor.
+
+## 4.4 Agregación entre dimensiones
+
+Las cinco dimensiones reciben el mismo peso:
+
+$$
+w_d = 0.20.
+$$
+
+Por tanto:
+
+$$
+ICVLF_t
+=
+\frac{1}{5}
+\sum_{d=1}^{5}
+S_{d,t}.
+$$
+
+Esto es una estructura jerárquica. El peso nominal de un indicador dentro del árbol de agregación no debe confundirse con su coeficiente analítico final después de reestandarizar cada dimensión.
+
+## 4.5 Escala histórica de comunicación
+
+Para facilitar la lectura:
+
+$$
+ICVLF_t^{(100)}
+=
+100
+\frac{
+ICVLF_t-\min(ICVLF)
+}{
+\max(ICVLF)-\min(ICVLF)
+}.
+$$
+
+En esta transformación, 0 corresponde al mínimo histórico observado en la muestra y 100 al máximo histórico observado. Un contrafactual de estrés puede superar 100 porque la referencia histórica no se trunca.
+
+## 4.6 Regímenes relativos
+
+La distribución histórica se divide en cuartiles:
+
+- **Baja**;
+- **Moderada**;
+- **Alta**;
+- **Muy alta**.
+
+Estos regímenes son descriptivos y retrospectivos.
+
+# 5. Diagnóstico de las series de entrada
+
+Antes de agregar las series, se examinan cobertura, distribución, estacionariedad, correlación intradimensional, redundancia y capacidad del PCA para resumir información común.
+
+## 5.1 Hechos estilizados
+
+```{r}
+#| results: asis
+include_publication_table(
+  body_table(
+    "Tabla_4_1_Hechos_Estilizados.html"
+  )
+)
+```
+
+## 5.2 Perfil distributivo de los 25 indicadores
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_1_Perfil_Series_Entrada.png"
+  )
+)
+```
+
+La Figura 4.1 permite comparar el rango P5–P95 y la mediana de cada serie después de expresarlos en desviaciones estándar respecto de su propia media. Esta visualización es descriptiva: no sustituye la normalización utilizada en la construcción del índice.
+
+## 5.3 Rol del PCA
+
+El PCA **no construye la especificación principal**. Se utiliza como diagnóstico y sensibilidad mediante KMO, prueba de Bartlett, correlación media, varianza explicada por PC1, coherencia de cargas y ponderaciones implícitas. El baseline permanece determinado por interpretación económica y pesos iguales.
+
+# 6. Resultados
+
+## 6.1 Evolución histórica del ICVLF
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_2_Trayectoria_ICVLF_Rupturas.png"
+  )
+)
+```
+
+La última observación corresponde a **`r month_year_es(fecha_actual)`**. El ICVLF histórico 0–100 es **`r fmt_num(valor_actual, 2)`** y se clasifica en el régimen **`r regimen_actual`**. Esto sitúa la observación en su posición relativa dentro de la distribución 2010–2025; no implica una probabilidad de crisis de `r fmt_num(valor_actual, 2)`%.
+
+El máximo histórico observado fue **`r fmt_num(max_value, 2)`** en **`r month_year_es(max_date)`**.
+
+## 6.2 Evidencia por subperiodos
+
+```{r}
+#| results: asis
+include_publication_table(
+  body_table(
+    "Tabla_4_2_ICVLF_Subperiodos.html"
+  )
+)
+```
+
+La comparación por subperiodos permite separar cambios de nivel, dispersión y frecuencia de observaciones clasificadas en los regímenes superiores sin atribuir automáticamente causas económicas a esos movimientos.
+
+## 6.3 Evolución de las cinco dimensiones
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_3_Subindices_Dimensiones.png"
+  )
+)
+```
+
+Los subíndices están estandarizados y orientados de modo que valores positivos reflejen una posición de mayor vulnerabilidad respecto de la referencia histórica de cada dimensión.
+
+## 6.4 Contribuciones dimensionales
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_4_Contribuciones_Subperiodo.png"
+  )
+)
+```
+
+Por construcción, la contribución de cada dimensión en la escala analítica es:
+
+$$
+C_{d,t}
+=
+\frac{S_{d,t}}{5},
+$$
+
+y se verifica la identidad:
+
+$$
+\sum_{d=1}^{5} C_{d,t}
+=
+ICVLF_t.
+$$
+
+En **`r month_year_es(fecha_actual)`**, la mayor contribución positiva corresponde a **`r etiquetas_bloque[mayor_dim]`** con **`r fmt_signed(mayor_contrib, 3)`**, mientras que la contribución más baja corresponde a **`r etiquetas_bloque[menor_dim]`** con **`r fmt_signed(menor_contrib, 3)`**. Esta descomposición identifica qué componentes sostienen la posición del índice, pero no establece relaciones causales.
+
+# 7. Validación convergente
+
+La validación utiliza proxies internos de cobertura líquida y estabilidad de fondeo. En particular, P1 y P2 no son LCR regulatorio.
+
+Para reducir circularidad, P1 y P2 se comparan también con una reconstrucción del ICVLF que retira el indicador mecánicamente coincidente.
+
+```{r}
+#| results: asis
+include_publication_table(
+  body_table(
+    "Tabla_4_3_Validacion_P1_P2.html"
+  )
+)
+```
+
+En la muestra completa, la correlación de Pearson del ICVLF principal con P1 es **`r fmt_num(r_p1, 4)`** y con P2 es **`r fmt_num(r_p2, 4)`**, cuando esas proxies están disponibles. Estas asociaciones se interpretan como consistencia convergente, no como validación causal.
+
+## 7.1 Estabilidad temporal
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_5_Rolling_P1_P2_60m.png"
+  )
+)
+```
+
+La ventana principal de 60 meses exige al menos 80% de pares completos. Las variaciones de las correlaciones móviles permiten evaluar heterogeneidad temporal en la relación entre el índice y las proxies.
+
+# 8. Robustez
+
+La especificación principal se contrasta con:
+
+- ponderaciones dimensionales alternativas;
+- PCA global de subíndices;
+- PCA para ponderaciones internas;
+- normalización robusta mediana/MAD;
+- exclusión simultánea de indicadores con interpretación de signo más dependiente del contexto;
+- leave-one-indicator-out;
+- leave-one-dimension-out.
+
+```{r}
+#| results: asis
+include_publication_table(
+  body_table(
+    "Tabla_4_4_Robustez_Ejecutiva.html"
+  )
+)
+```
+
+La menor correlación de Pearson observada en los ejercicios leave-one-indicator-out es **`r fmt_num(min_loo_i, 4)`** y la menor correlación leave-one-dimension-out es **`r fmt_num(min_loo_d, 4)`**. Estos resultados permiten evaluar cuánto depende la trayectoria de elementos individuales sin convertir la correlación alta en una prueba de validez económica.
+
+<details>
+<summary><strong>Ver anexo gráfico: robustez de especificaciones</strong></summary>
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  annex_figure(
+    "Anexo_Figura_A1_Robustez_Especificaciones.png"
+  )
+)
+```
+
+</details>
+
+# 9. Cambios estructurales
+
+La prueba Bai–Perron se aplica a la escala analítica del ICVLF para identificar cambios estadísticos en el nivel medio. La selección del número de rupturas utiliza BIC.
+
+```{r}
+#| results: asis
+include_publication_table(
+  body_table(
+    "Tabla_4_5_Rupturas_Bai_Perron.html"
+  )
+)
+```
+
+La ejecución identifica como fechas estimadas: **`r rupturas_txt`**. Estas fechas no identifican por sí mismas los factores económicos que originaron el cambio de régimen.
+
+<details>
+<summary><strong>Ver anexo gráfico: selección BIC</strong></summary>
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  annex_figure(
+    "Anexo_Figura_A2_BIC_Rupturas.png"
+  )
+)
+```
+
+</details>
+
+# 10. Escenarios contrafactuales de estrés
+
+El ejercicio de estrés es determinístico. Cada escenario lleva una dimensión hasta una posición adversa calibrada con el percentil histórico 95. También se considera un choque conjunto y la peor configuración conjunta observada históricamente.
+
+```{r}
+#| echo: false
+#| out-width: "100%"
+knitr::include_graphics(
+  body_figure(
+    "Figura_4_6_Estres_Q95.png"
+  )
+)
+```
+
+Bajo el choque conjunto Q95, el índice simulado sobre la referencia histórica alcanza **`r fmt_num(stress_joint_100, 2)`**. La peor configuración histórica observada utilizada como referencia alcanza **`r fmt_num(stress_hist_100, 2)`**. Un valor superior a 100 en un contrafactual es posible y no debe interpretarse como una probabilidad.
+
+# 11. Interpretación económica
+
+El ICVLF debe leerse en cuatro niveles.
+
+## Nivel agregado
+
+Indica dónde se ubica cada mes respecto de la propia experiencia histórica 2010–2025.
+
+## Régimen relativo
+
+Los cuartiles permiten clasificar esa posición como Baja, Moderada, Alta o Muy alta.
+
+## Composición
+
+Los cinco subíndices y sus contribuciones permiten identificar qué dimensiones elevan o atenúan la medida agregada.
+
+## Robustez
+
+Las sensibilidades permiten verificar si la señal general cambia sustancialmente al modificar ponderaciones, normalización o composición.
+
+::: {.callout-important}
+## Qué NO permite concluir el índice
+
+El ICVLF no permite afirmar por sí solo:
+
+- que existe una probabilidad determinada de crisis;
+- que se ha incumplido LCR o NSFR;
+- que una ruptura estadística fue causada por un evento específico;
+- que una correlación con una proxy representa causalidad;
+- que los escenarios de estrés tengan una probabilidad conocida de ocurrencia.
+:::
+
+# 12. Limitaciones
+
+1. **Información agregada.** El análisis utiliza indicadores públicos del sistema bancario agregado; no reemplaza un estudio microprudencial institución por institución.
+
+2. **Alcance regulatorio.** La base pública utilizada no contiene toda la estructura contractual necesaria para reconstruir métricas regulatorias de Basilea.
+
+3. **Normalización retrospectiva.** Los parámetros de estandarización y la escala 0–100 se estiman sobre 2010–2025. La lectura es histórica y no necesariamente equivalente a una calibración en tiempo real.
+
+4. **Selección conceptual.** Algunas direcciones de riesgo dependen más del contexto financiero que otras. El proyecto las documenta y somete a sensibilidad en lugar de tratarlas como verdades mecánicas.
+
+5. **Validación interna.** Las proxies se construyen con información relacionada con la misma base y, por tanto, representan consistencia convergente y no una validación externa completamente independiente.
+
+6. **Rupturas y correlaciones.** Son evidencia estadística descriptiva. No identifican causalidad económica.
+
+7. **Estrés.** Los escenarios son contrafactuales determinísticos calibrados con la distribución histórica. No son modelos probabilísticos.
+
+# 13. Conclusiones
+
+El ICVLF ofrece una forma transparente de integrar información pública dispersa sobre liquidez, fondeo y canales de transmisión del balance bancario. Su aporte principal no consiste en sustituir métricas regulatorias, sino en proporcionar una señal sintética que puede ser auditada, descompuesta, sometida a pruebas de robustez y reproducida desde los datos originales.
+
+La arquitectura de pesos iguales prioriza transparencia y neutralidad ex ante. El PCA se utiliza como sensibilidad y no como fuente de verdad económica. Las pruebas de validación, robustez, rupturas y estrés amplían la lectura del índice sin convertir un ejercicio descriptivo en una afirmación causal.
+
+En la última observación disponible, **`r month_year_es(fecha_actual)`**, el índice registra **`r fmt_num(valor_actual, 2)`** y se ubica en el régimen histórico **`r regimen_actual`**. La interpretación correcta es una posición relativa dentro de 2010–2025 y debe complementarse con la descomposición dimensional y las pruebas de sensibilidad presentadas en este informe.
+
+# 14. Datos y reproducibilidad
+
+## Archivos públicos
+
+- `data/raw/Datos RL SB.xlsm`: base original utilizada por el pipeline.
+- `data/processed/asfi_indicators_2010_2025.csv`: base analítica.
+- `data/processed/icvlf_monthly_2010_2025.csv`: índice, dimensiones y sensibilidades.
+- `data/processed/indicator_dictionary.csv`: orientación económica y fundamento de los indicadores.
+
+## Reproducción completa
+
+Desde la raíz del repositorio:
+
+```bash
+Rscript run_all.R
+quarto render
+```
+
+El primer comando reproduce el motor analítico y las salidas publicables. El segundo construye este informe.
+
+## Flujo reproducible
+
+```text
+data/raw/Datos RL SB.xlsm
+        |
+        v
+R/01_build_icvlf.R
+        |
+        +--> output/bloque1/diagnosticos/OBJETOS_ICVLF_v6_3_BLOQUE1.rds
+        +--> data/processed/*.csv
+        |
+        v
+R/02_generate_outputs.R
+        |
+        +--> 5 tablas + 6 figuras del cuerpo
+        +--> 22 tablas + 2 figuras de anexos
+        +--> CSV + Excel + logs
+        |
+        v
+index.qmd
+        |
+        v
+_site/index.html
+        |
+        v
+GitHub Pages
+```
+
+# 15. Anexos técnicos
+
+Los anexos contienen la evidencia detallada que respalda el cuerpo del informe. Se mantienen plegados para preservar legibilidad sin sacrificar auditabilidad.
+
+## A1. Marco financiero de las dimensiones
+
+<details>
+<summary><strong>Mostrar Anexo A1</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A1_Marco_Dimensiones.html"
+  )
+)
+```
+
+</details>
+
+## A2. Arquitectura de los 25 indicadores
+
+<details>
+<summary><strong>Mostrar Anexo A2</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A2_Arquitectura_25_Indicadores.html"
+  )
+)
+```
+
+</details>
+
+## A3. Estadísticos descriptivos
+
+<details>
+<summary><strong>Mostrar Anexo A3</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A3_Descriptivos_25_Indicadores.html"
+  )
+)
+```
+
+</details>
+
+## A4. Diagnóstico ADF de indicadores
+
+<details>
+<summary><strong>Mostrar Anexo A4</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A4_ADF_Indicadores.html"
+  )
+)
+```
+
+</details>
+
+## A5. Correlaciones intradimensionales
+
+<details>
+<summary><strong>Mostrar Anexo A5</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A5_Correlaciones_Intradimensionales.html"
+  )
+)
+```
+
+</details>
+
+## A6. PCA como diagnóstico y sensibilidad
+
+<details>
+<summary><strong>Mostrar Anexo A6a — Diagnóstico PCA</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A6a_Diagnostico_PCA.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A6b — Cargas y pesos PCA</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A6b_Pesos_PCA.html"
+  )
+)
+```
+
+</details>
+
+## A7. Estacionariedad e integración
+
+<details>
+<summary><strong>Mostrar Anexo A7a — ADF, PP y KPSS</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A7a_Estacionariedad_ICVLF_Proxies.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A7b — Resumen de integración</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A7b_Resumen_Integracion.html"
+  )
+)
+```
+
+</details>
+
+## A8. Validación ampliada
+
+<details>
+<summary><strong>Mostrar Anexo A8a — Validación global</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A8a_Validacion_Global_Todos_Proxies.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A8b — Validación por subperiodo</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A8b_Validacion_Subperiodos.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A8c — Asociaciones adelantadas</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A8c_Asociaciones_Adelantadas.html"
+  )
+)
+```
+
+</details>
+
+## A9. HAC y sensibilidad a extremos
+
+<details>
+<summary><strong>Mostrar Anexo A9</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A9_HAC_y_Sensibilidad.html"
+  )
+)
+```
+
+</details>
+
+## A10. Leave-one-out
+
+<details>
+<summary><strong>Mostrar Anexo A10</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A10_Leave_One_Out.html"
+  )
+)
+```
+
+</details>
+
+## A11. Benchmark de alcance
+
+<details>
+<summary><strong>Mostrar Anexo A11</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A11_Benchmark_Alcance.html"
+  )
+)
+```
+
+</details>
+
+## A12. Selección BIC de rupturas
+
+<details>
+<summary><strong>Mostrar Anexo A12</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A12_BIC_Rupturas.html"
+  )
+)
+```
+
+</details>
+
+## A13. Escenarios de estrés
+
+<details>
+<summary><strong>Mostrar Anexo A13a — Calibración</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A13a_Calibracion_Estres.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A13b — Stress Q95</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A13b_Estres_Q95.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A13c — Stress +1.5 d.e.</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A13c_Estres_1_5DE.html"
+  )
+)
+```
+
+</details>
+
+## A14. Evidencia rolling
+
+<details>
+<summary><strong>Mostrar Anexo A14a — Correlaciones móviles</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A14a_Rolling_Correlaciones.html"
+  )
+)
+```
+
+</details>
+
+<details>
+<summary><strong>Mostrar Anexo A14b — Persistencia AR(1)</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A14b_Persistencia_Rolling_AR1.html"
+  )
+)
+```
+
+</details>
+
+## A15. Extremos históricos
+
+<details>
+<summary><strong>Mostrar Anexo A15</strong></summary>
+
+```{r}
+#| results: asis
+include_publication_table(
+  annex_table(
+    "Anexo_A15_Extremos_Historicos.html"
+  )
+)
+```
+
+</details>
+
+# Nota de uso
+
+Este proyecto es un trabajo de investigación reproducible basado en información pública. Las interpretaciones y conclusiones son responsabilidad del autor y no representan una posición institucional de ASFI ni de otra entidad.

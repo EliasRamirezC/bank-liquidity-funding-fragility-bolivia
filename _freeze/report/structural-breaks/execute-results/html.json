@@ -1,0 +1,17 @@
+{
+  "hash": "f05f55664ebb1df232f564f1f8556041",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Structural Breaks\"\nsubtitle: \"Bai–Perron mean-shift diagnostics\"\n---\n\n\n\n## Objective\n\nBai–Perron analysis evaluates whether the mean level of the analytical\nICVLF exhibits statistically identifiable structural changes.\n\nIt does **not** identify the causal source of those changes.\n\n## BIC selection path\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](structural-breaks_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\n## Estimated breaks\n\n\n::: {.cell}\n::: {.cell-output .cell-output-stdout}\n\n```\n  numero      fecha   ic95_inf   ic95_sup ancho_ic_meses_aprox ic_degenerado\n1      1 2012-07-01 2012-06-01 2013-02-01             8.049281         FALSE\n2      2 2015-04-01 2014-11-01 2015-06-01             6.965092         FALSE\n3      3 2020-01-01 2019-12-01 2020-02-01             2.036961         FALSE\n4      4 2022-05-01 2021-12-01 2022-06-01             5.979466         FALSE\n```\n\n\n:::\n:::\n\n\n## Confidence intervals\n\nThe model retains:\n\n- estimated break date;\n- lower 95% confidence bound;\n- upper 95% confidence bound;\n- approximate interval width.\n\nThe raw `confint()` structure is also stored in the master RDS for\nauditability because software output structures can vary.\n\n::: {.callout-warning}\n\nA break date should not be labeled as the effect of a particular\nregulatory reform, macroeconomic shock or policy intervention without a\nseparate causal research design.\n\n:::",
+    "supporting": [
+      "structural-breaks_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

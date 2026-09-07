@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Si utiliza este repositorio o el ICVLF, cite este software de investigación."
+title: "ICVLF Bolivia: Índice Compuesto de Vulnerabilidad de Liquidez y Fondeo"
+type: software
+authors:
+  - family-names: "Ramírez Calderón"
+    given-names: "Elías Eliseo"
+repository-code: "https://github.com/eliasramirezc/bank-liquidity-funding-fragility-bolivia"
+url: "https://eliasramirezc.github.io/bank-liquidity-funding-fragility-bolivia/"
+license: MIT
+version: "1.0.0"
+date-released: "2026-09-06"
+keywords:
+  - Bolivia
+  - banking
+  - liquidity
+  - funding
+  - financial stability
+  - composite index
+  - reproducible research
+abstract: >-
+  Reproducible research compendium for the construction and evaluation of the
+  Composite Liquidity and Funding Vulnerability Index (ICVLF) for the Bolivian
+  banking system, using public indicators for 2010–2025.

@@ -1,0 +1,40 @@
+# R session
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# renv local cache / library
+renv/library/
+renv/staging/
+renv/python/
+renv/cellar/
+
+# Quarto build products
+.quarto/
+_site/
+
+# Bloque 1: intermedios y logs reproducibles
+output/bloque1/
+
+# Bloque 2: logs reproducibles
+output/bloque2/05_LOGS/
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*.log
+
+# Keep project settings if intentionally versioned
+!.vscode/settings.json
+
+/.quarto/
+**/*.quarto_ipynb

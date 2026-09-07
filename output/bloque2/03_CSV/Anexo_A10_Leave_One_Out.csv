@@ -1,0 +1,31 @@
+"Nivel","Elemento omitido","Dimensión","N","Pearson","Spearman","DAM analítica"
+"Indicador","Activo Improductivo / Patrimonio","Activos",192,0.9639,0.9824,0.109
+"Indicador","Cartera Neta / Activo Total","Activos",192,0.9688,0.9494,0.0999
+"Indicador","Disponibilidades / Activo Total","Activos",192,0.9689,0.9451,0.1045
+"Indicador","Activo Productivo / (Activo + Contingente)","Activos",192,0.9726,0.9884,0.0914
+"Indicador","Cartera Reprog. o Reestruct. / Cartera Total","Cartera",184,0.9758,0.9829,0.0702
+"Indicador","Obligaciones Subordinadas / (Pas. + Pat.)","Fondeo",192,0.991,0.9924,0.0538
+"Indicador","Cartera Vencida y Ejecución / Cartera Total","Cartera",184,0.9916,0.9947,0.0586
+"Indicador","Oblig. Personas Naturales / Total Oblig. Público","Fondeo",192,0.9918,0.9867,0.0463
+"Indicador","Oblig. Personas Jurídicas e Institucionales / Total Oblig.","Fondeo",192,0.9922,0.9866,0.045
+"Indicador","Oblig. con el Público / (Pas. + Pat.)","Fondeo",192,0.9935,0.9923,0.0348
+"Indicador","Días de Permanencia Promedio de DPF","Fondeo",192,0.9935,0.9872,0.0673
+"Indicador","Oblig. Público + Emp. Públicas / (Pas. + Pat.)","Fondeo",192,0.9936,0.9921,0.0435
+"Indicador","Previsión Cartera Incobrable / Cartera Total","Cartera",184,0.9937,0.9971,0.0528
+"Indicador","Cartera Reprog. Vencida y Ejec. / Cartera Reprog.","Cartera",184,0.9963,0.9968,0.0757
+"Indicador","(Cartera Vencida + Ejecución) / Patrimonio","Solvencia",192,0.9966,0.998,0.0308
+"Indicador","(Cartera Vencida + Ejecución – Prev.) / Patrimonio","Solvencia",192,0.9966,0.9971,0.0323
+"Indicador","(Disp. + Inv. Temp.) / Activo Total","Liquidez",192,0.9969,0.9961,0.034
+"Indicador","Coeficiente de Adecuación Patrimonial (CAP)","Solvencia",192,0.997,0.9993,0.026
+"Indicador","(Disp. + Inv. Temp.) / Oblig. Corto Plazo","Liquidez",192,0.9975,0.9984,0.0257
+"Indicador","Oblig. con Bancos y Ent. Fin. / (Pas. + Pat.)","Fondeo",192,0.9978,0.9973,0.037
+"Indicador","Disponibilidades / Oblig. Corto Plazo","Liquidez",192,0.9979,0.9989,0.025
+"Indicador","Patrimonio / (Activo + Contingente)","Solvencia",192,0.9981,0.9987,0.0229
+"Indicador","(Disp. + Inv. Temp.) / Pasivo Total","Liquidez",192,0.9983,0.9991,0.0205
+"Indicador","Cartera Categoría F (previsión 100%) / Cartera","Cartera",192,0.9988,0.998,0.0317
+"Indicador","Patrimonio / Activo Total","Solvencia",192,0.9989,0.9989,0.0181
+"Dimensión","Cartera","Cartera",192,0.9204,0.9808,0.1605
+"Dimensión","Liquidez","Liquidez",192,0.931,0.9632,0.0801
+"Dimensión","Fondeo","Fondeo",192,0.9316,0.941,0.2493
+"Dimensión","Activos","Activos",192,0.9324,0.9476,0.148
+"Dimensión","Solvencia","Solvencia",192,0.974,0.9569,0.1101

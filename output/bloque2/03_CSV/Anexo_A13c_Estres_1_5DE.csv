@@ -1,0 +1,8 @@
+"Código","Escenario","Dimensión(es)","Calibración","ICVLF analítico","Δ analítico","ICVLF 0–100 ref."
+"E0","E0 — Estado observado (diciembre 2025)","Ninguna","Estado observado",0.4112,0,77.19
+"E1","E1 — Choque adverso en liquidez","liquidez","+1.5 d.e. sobre subíndice orientado",0.7112,0.3,89.84
+"E2","E2 — Choque adverso en fondeo","fondeo","+1.5 d.e. sobre subíndice orientado",0.7112,0.3,89.84
+"E3","E3 — Choque adverso en composición de activos","activos","+1.5 d.e. sobre subíndice orientado",0.7112,0.3,89.84
+"E4","E4 — Choque adverso en presión de cartera","cartera","+1.5 d.e. sobre subíndice orientado",0.7112,0.3,89.84
+"E5","E5 — Choque adverso en solvencia/capacidad de absorción","solvencia","+1.5 d.e. sobre subíndice orientado",0.7112,0.3,89.84
+"E6","E6 — Choque adverso conjunto en las cinco dimensiones","liquidez, fondeo, activos, cartera, solvencia","+1.5 d.e. sobre subíndice orientado",1.9112,1.5,140.47

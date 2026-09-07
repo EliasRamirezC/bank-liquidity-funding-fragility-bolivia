@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: _site
+  execute-dir: project
+
+  render:
+    - index.qmd
+
+resources:
+  - data
+  - output/bloque2
+  - LICENSE
+  - CITATION.cff
+
+website:
+  title: "ICVLF Bolivia"
+  site-url: "https://eliasramirezc.github.io/bank-liquidity-funding-fragility-bolivia/"
+
+  navbar:
+    left:
+      - href: index.qmd
+        text: Informe
+
+    right:
+      - text: Datos
+        href: data/processed/icvlf_monthly_2010_2025.csv
+
+      - icon: github
+        href: https://github.com/eliasramirezc/bank-liquidity-funding-fragility-bolivia
+        aria-label: GitHub
+
+  search: true
+
+  page-footer:
+    left: "ICVLF Bolivia · Reproducible Research Compendium"
+    right: "R · Quarto · GitHub Pages"
+
+format:
+  html:
+    theme: cosmo
+    css: assets/styles.css
+
+    toc: true
+    toc-title: "Contenido"
+    toc-depth: 2
+    toc-location: right
+
+    smooth-scroll: true
+    anchor-sections: true
+
+    code-fold: false
+    code-tools: false
+    code-copy: false
+
+    html-math-method: mathjax
+
+    grid:
+      sidebar-width: 180px
+      body-width: 940px
+      margin-width: 270px
+      gutter-width: 1.5rem
+
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: false

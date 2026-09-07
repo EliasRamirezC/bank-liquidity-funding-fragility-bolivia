@@ -1,0 +1,325 @@
+/* =========================================================
+   ICVLF Bolivia — research report
+   ========================================================= */
+
+:root {
+  --icvlf-navy: #173b5f;
+  --icvlf-blue: #1f4e79;
+  --icvlf-muted: #64748b;
+  --icvlf-border: #dfe5eb;
+  --icvlf-soft: #f6f8fa;
+  --icvlf-text: #1f2937;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--icvlf-text);
+  line-height: 1.68;
+  background: #ffffff;
+}
+
+#quarto-content {
+  font-size: 1rem;
+}
+
+main.content {
+  max-width: 940px;
+}
+
+.quarto-title-block {
+  margin-bottom: 1.4rem;
+}
+
+.quarto-title .title {
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.quarto-title .subtitle {
+  color: var(--icvlf-muted);
+  font-weight: 400;
+}
+
+.report-kicker {
+  color: var(--icvlf-blue);
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
+
+.hero-panel {
+  border-top: 3px solid var(--icvlf-blue);
+  border-bottom: 1px solid var(--icvlf-border);
+  padding: 1.4rem 0 1.35rem 0;
+  margin: 0.4rem 0 1.4rem 0;
+}
+
+.hero-panel h2 {
+  margin-top: 0;
+  color: #111827;
+  font-size: 1.65rem;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 1.3rem 0 1.2rem 0;
+}
+
+.metric-card {
+  border: 1px solid var(--icvlf-border);
+  border-radius: 8px;
+  padding: 0.95rem 1rem;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.metric-value {
+  color: var(--icvlf-blue);
+  font-weight: 750;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.metric-label {
+  color: var(--icvlf-muted);
+  font-size: 0.84rem;
+  margin-top: 0.3rem;
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0 1.4rem 0;
+}
+
+.fact-card {
+  background: var(--icvlf-soft);
+  border: 1px solid var(--icvlf-border);
+  border-radius: 7px;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.92rem;
+}
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.quick-links .btn {
+  font-size: 0.86rem;
+}
+
+h1 {
+  font-size: 1.95rem;
+  font-weight: 740;
+  letter-spacing: -0.015em;
+  margin-top: 3.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid #edf0f3;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 680;
+  margin-top: 2.25rem;
+  margin-bottom: 0.8rem;
+}
+
+h3 {
+  font-size: 1.12rem;
+  font-weight: 650;
+  margin-top: 1.7rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+blockquote {
+  border-left: 3px solid var(--icvlf-blue);
+  padding-left: 1rem;
+  color: #374151;
+}
+
+.callout {
+  margin: 1.35rem 0;
+  border-radius: 7px;
+}
+
+.math.display {
+  overflow-x: auto;
+  padding: 0.45rem 0;
+}
+
+/* Tablas HTML provenientes del Bloque 2 */
+.wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.35rem 0 0.35rem 0;
+}
+
+.wrap table {
+  border-collapse: collapse;
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: 0.86rem !important;
+  line-height: 1.35;
+  background: #ffffff;
+}
+
+.wrap caption {
+  caption-side: top;
+  text-align: left !important;
+  color: #111827;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  margin: 0 0 0.65rem 0 !important;
+}
+
+.wrap th {
+  background: #e9eef4 !important;
+  color: #172033;
+  border-top: 1px solid #9aa6b2;
+  border-bottom: 1.5px solid #64748b !important;
+  padding: 0.58rem 0.62rem !important;
+  text-align: center !important;
+  vertical-align: bottom !important;
+  white-space: normal;
+}
+
+.wrap td {
+  border-bottom: 1px solid #e5e7eb !important;
+  padding: 0.5rem 0.62rem !important;
+  vertical-align: top !important;
+  white-space: normal;
+}
+
+.wrap tbody tr:hover {
+  background: #fafbfc;
+}
+
+.note {
+  color: #5f6b78 !important;
+  font-size: 0.79rem !important;
+  line-height: 1.45 !important;
+  margin: 0.55rem 0 1.75rem 0 !important;
+}
+
+/* Figuras */
+.cell-output-display img,
+main.content img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0.9rem auto 1.25rem auto;
+}
+
+.cell {
+  margin-bottom: 1rem;
+}
+
+/* Anexos */
+details {
+  border: 1px solid var(--icvlf-border);
+  border-radius: 7px;
+  background: #ffffff;
+  margin: 0.9rem 0 1.2rem 0;
+  padding: 0;
+}
+
+details > summary {
+  cursor: pointer;
+  padding: 0.8rem 0.95rem;
+  color: #273548;
+  background: #f8fafc;
+  border-radius: 7px;
+}
+
+details[open] > summary {
+  border-bottom: 1px solid var(--icvlf-border);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+details > .cell,
+details > .wrap,
+details > p {
+  margin-left: 0.95rem;
+  margin-right: 0.95rem;
+}
+
+/* TOC */
+#TOC {
+  font-size: 0.84rem;
+}
+
+#TOC .active {
+  color: var(--icvlf-blue) !important;
+  font-weight: 600;
+}
+
+/* Navbar */
+.navbar {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-brand {
+  font-weight: 700;
+}
+
+/* Footer */
+.nav-footer {
+  border-top: 1px solid #e5e7eb;
+  color: var(--icvlf-muted);
+  font-size: 0.82rem;
+}
+
+/* Código: solo aparece donde se escriba explícitamente */
+pre {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .metric-grid,
+  .fact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  main.content {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .metric-grid,
+  .fact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.65rem;
+  }
+
+  .hero-panel h2 {
+    font-size: 1.4rem;
+  }
+
+  .wrap table {
+    font-size: 0.79rem !important;
+  }
+}
